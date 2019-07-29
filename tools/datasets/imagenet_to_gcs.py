@@ -48,6 +48,7 @@ the format:
 import math
 import os
 import random
+import sys
 import tarfile
 import urllib
 
@@ -99,7 +100,11 @@ def download_dataset(raw_data_dir):
   """Download the Imagenet dataset into the temporary directory."""
   def _download(url, filename):
     """Download the dataset at the provided filepath."""
-    urllib.urlretrieve(url, filename)
+    if sys.version_info[0] >= 3:
+      from urllib.request import urlretrieve
+    else:
+      from urllib import urlretrieve
+    urlretrieve(url, filename)
 
   def _get_members(filename):
     """Get all members of a tarfile."""
